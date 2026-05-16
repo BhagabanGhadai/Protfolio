@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhagaban Ghadai — Terminal Portfolio</title>
+  <meta name="description" content="Interactive terminal portfolio of Bhagaban Ghadai, Software Engineer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="desktop" id="desktop">
+
+  <!-- Matrix rain canvas overlay -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- macOS-style menu bar -->
+  <header class="menubar">
+    <div class="menubar-left">
+      <span class="apple-mark">◆</span>
+      <span class="menubar-item is-bold">Terminal</span>
+      <span class="menubar-item">File</span>
+      <span class="menubar-item">Edit</span>
+      <span class="menubar-item">View</span>
+      <span class="menubar-item">Help</span>
+    </div>
+    <div class="menubar-right">
+      <svg class="menu-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M1.5 8.5a13 13 0 0 1 21 0M5.5 12.5a8 8 0 0 1 13 0M9.5 16.5a4 4 0 0 1 5 0M13 20h.01"/>
+      </svg>
+      <svg class="menu-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect width="18" height="11" x="3" y="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span id="menuTime">00:00</span>
+    </div>
+  </header>
+
+  <!-- Terminal Window -->
+  <div class="window" id="termWindow">
+
+    <!-- Title bar (drag handle) -->
+    <div class="titlebar" id="titlebar">
+      <div class="traffic-lights">
+        <button class="tl tl-close" id="tlClose" aria-label="Close">
+          <svg width="6" height="6" viewBox="0 0 6 6" class="tl-icon">
+            <path d="M1.5 1.5l3 3M4.5 1.5l-3 3" stroke="#4c0002" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="tl tl-min" id="tlMin" aria-label="Minimize">
+          <svg width="6" height="6" viewBox="0 0 6 6" class="tl-icon">
+            <line x1="1" y1="3" x2="5" y2="3" stroke="#4b3600" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="tl tl-max" id="tlMax" aria-label="Maximize">
+          <svg width="6" height="6" viewBox="0 0 6 6" class="tl-icon">
+            <path d="M1 3.5l1.5-1.5 1.5 1.5-1.5 1.5z" fill="#1a3b00" stroke="none"/>
+          </svg>
+        </button>
+      </div>
+      <span class="win-title">bhagaban@portfolio — terminal</span>
+      <div class="titlebar-right"></div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tabbar">
+      <div class="tab active">
+        <span class="tab-bullet">◆</span>
+        portfolio.sh
+        <span class="tab-x">×</span>
+      </div>
+      <button class="tab-new">+</button>
+    </div>
+
+    <!-- Terminal scrollable body -->
+    <div class="term-body" id="termBody">
+      <div id="output"></div>
+      <div class="input-row" id="inputRow">
+        <span class="prompt-el" id="promptEl"></span>
+        <input
+          id="cmdInput"
+          class="cmd-input"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="none"
+          aria-label="Terminal input"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- macOS-style dock -->
+  <nav class="dock" id="dock">
+    <div class="dock-item active" data-cmd="" title="Terminal">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+      </div>
+      <span class="dock-label">Terminal</span>
+      <span class="dock-dot"></span>
+    </div>
+    <div class="dock-sep"></div>
+    <div class="dock-item" data-cmd="about" title="About">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+      <span class="dock-label">About</span>
+    </div>
+    <div class="dock-item" data-cmd="experience" title="Experience">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+        </svg>
+      </div>
+      <span class="dock-label">Experience</span>
+    </div>
+    <div class="dock-item" data-cmd="projects" title="Projects">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <span class="dock-label">Projects</span>
+    </div>
+    <div class="dock-item" data-cmd="skills" title="Skills">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="dock-label">Skills</span>
+    </div>
+    <div class="dock-item" data-cmd="contact" title="Contact">
+      <div class="dock-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </div>
+      <span class="dock-label">Contact</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
