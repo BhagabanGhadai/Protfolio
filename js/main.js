@@ -5,13 +5,14 @@
 ═══════════════════════════════════════════════ */
 const DATA = {
   name:     'Bhagaban Ghadai',
-  role:     'Software Engineer',
+  role:     'Software Developer II',
   location: 'India',
   status:   'Open to opportunities',
-  email:    'bhagban.housivity@gmail.com',
+  email:    'bhagabanghadai043@gmail.com',
   linkedin: 'linkedin.com/in/bhagaban-ghadai',
-  github:   'github.com/bhagaban-ghadai',   // update with real handle
-  website:  'bhagaban.dev',                 // update with real domain
+  github:   'github.com/BhagabanGhadai',
+  x:        'x.com/bhagaban_ghadai',
+  website:  'bhagaban.in',
 
   about: [
     `I'm <span class="c-bold c-text">Bhagaban Ghadai</span>, a passionate Software Engineer`,
@@ -19,7 +20,7 @@ const DATA = {
     `user experiences. I thrive at the intersection of clean code,`,
     `thoughtful architecture, and great product design.`,
     ``,
-    `With hands-on experience across the full stack, I enjoy tackling`,
+    `I specialize in Backend Architecture, Microservices & Database Optimization. I enjoy tackling`,
     `complex engineering problems and turning ideas into production-grade`,
     `software. I'm always learning, building, and shipping.`,
     ``,
@@ -29,69 +30,62 @@ const DATA = {
 
   experience: [
     {
-      title:   'Software Engineer',
-      company: 'Your Company Name',          // ← update
-      period:  '2023 — Present',
+      title:   'Software Developer II',
+      company: 'Housivity Platform Pvt. Ltd.',
+      period:  'Apr 2025 — Present',
       duties: [
+        'Microservices & Messaging: Engineered async messaging using RabbitMQ, delay exchanges, and dead-letter queues.',
+        'Infrastructure & Monitoring: Managed microservices on K8s; configured Prometheus/Alertmanager.',
+        'System Reliability: Diagnosed and resolved complex production issues and race conditions.',
         'Built and maintained scalable backend services handling high-traffic workloads.',
-        'Led frontend development for key product features, improving engagement by 40%.',
-        'Designed and implemented CI/CD pipelines reducing deployment time by 60%.',
+        'Designed and implemented CI/CD pipelines reducing deployment time by 80%.',
         'Mentored junior developers and led architecture discussions.',
       ],
-      stack: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
+      stack: ['Node.js', 'Bun', 'NestJS', 'MongoDB', 'RabbitMQ', 'Redis', 'OpenSearch', 'Docker', 'Kubernetes', 'DigitalOcean', 'AWS', 'Lambda', 'CloudFront', 'CloudWatch'],
     },
     {
-      title:   'Junior Developer',
-      company: 'Previous Company',           // ← update
-      period:  '2021 — 2023',
+      title:   'Backend Developer',
+      company: 'Iraitech Innovation & Technology Pvt. Ltd.',
+      period:  'Dec 2022 — Nov 2024',
       duties: [
-        'Developed RESTful APIs and microservices using Node.js and Express.',
-        'Built React-based dashboards and reusable component libraries.',
-        'Participated in agile ceremonies and contributed to sprint planning.',
-        'Integrated third-party APIs and payment gateways.',
+        'Scalable API Design: Built high-performance RESTful APIs using Python (Django/FastAPI) and Node.js.',
+        'Database Optimization: Designed flexible MongoDB schemas for heavy read operations.',
+        'Performance Tuning: Identified bottlenecks and optimized database queries for faster response.',
       ],
-      stack: ['JavaScript', 'Express', 'MongoDB', 'Docker', 'Redis'],
+      stack: ['Python', 'FastAPI', 'Django', 'Node.js', 'MongoDB', 'Redis', 'AWS', 'Docker', 'Git', 'Jenkins', 'Postgres', 'RabbitMQ'],
     },
   ],
 
   projects: [
     {
-      name:   'Project Alpha',               // ← update
-      desc:   'A full-stack web application solving a real-world problem. Built for scale with a clean REST API, real-time features, and a modern React frontend.',
-      stack:  ['React', 'Node.js', 'PostgreSQL', 'Redis'],
-      github: 'https://github.com/',        // ← update
-      live:   'https://example.com',        // ← update
-    },
-    {
-      name:   'Project Beta',               // ← update
-      desc:   'High-performance API service with authentication, rate limiting, and data visualization. Handles 10k+ requests/minute in production.',
-      stack:  ['TypeScript', 'Express', 'Redis', 'Docker'],
-      github: 'https://github.com/',
+      name:   'Seat Reservation Platform',
+      desc:   'A scalable platform for real-time seat reservation across venues. Implemented live availability and booking confirmations.',
+      stack:  ['Node.js', 'Redis', 'Websocket'],
+      github: null,
       live:   null,
     },
     {
-      name:   'Project Gamma',              // ← update
-      desc:   'Automation tool integrating multiple services via webhooks. Reduces manual workflows by 80% and runs reliably in a Dockerized environment.',
-      stack:  ['Python', 'FastAPI', 'Celery', 'AWS Lambda'],
-      github: 'https://github.com/',
-      live:   'https://example.com',
+      name:   'ECommerce',
+      desc:   'Microservices platform featuring catalog management, shopping cart, and secure payments with third-party shipping integrations.',
+      stack:  ['Node.js', 'Microservices', 'REST'],
+      github: null,
+      live:   null,
     },
     {
-      name:   'Project Delta',              // ← update
-      desc:   'Open-source CLI utility with 200+ GitHub stars. Simplifies a common developer workflow with a clean, composable interface.',
-      stack:  ['Node.js', 'TypeScript', 'CLI'],
-      github: 'https://github.com/',
+      name:   'Social Media',
+      desc:   'Social app with profiles, posts, comments, and real-time messaging using websockets. Integrated robust content moderation.',
+      stack:  ['Node.js', 'Websocket', 'MongoDB'],
+      github: null,
       live:   null,
     },
   ],
 
   skills: {
-    'Languages':   ['JavaScript', 'TypeScript', 'Python', 'HTML5', 'CSS3', 'SQL'],
-    'Frontend':    ['React', 'Next.js', 'Tailwind CSS', 'Redux', 'Vite'],
-    'Backend':     ['Node.js', 'Express', 'FastAPI', 'REST APIs', 'GraphQL'],
-    'Databases':   ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL', 'Prisma'],
-    'DevOps':      ['Docker', 'AWS', 'CI/CD', 'Linux', 'Nginx', 'Git'],
-    'Tools':       ['VS Code', 'Figma', 'Postman', 'Jest', 'Webpack', 'Cloudflare'],
+    'Languages':   ['JavaScript', 'TypeScript', 'Python', 'Golang'],
+    'Technologies':['Node.js', 'Express', 'FastAPI', 'GraphQL', 'REST', 'Websocket'],
+    'Databases':   ['MongoDB', 'Postgres', 'MySQL', 'Redis'],
+    'Messaging':   ['RabbitMQ', 'Kafka', 'Celery'],
+    'DevOps':      ['Docker', 'AWS', 'CI/CD', 'Jenkins', 'ELK Stack', 'Git'],
   },
 };
 
@@ -444,7 +438,7 @@ function registerCommands(term, matrixEffect) {
   /* ── help ── */
   term.register('help', () => [
     `<span class="c-dim">┌─────────────────────────────────────────────────────────┐</span>`,
-    `<span class="c-dim">│</span>  <span class="c-bold c-text">Available Commands</span>                                      <span class="c-dim">│</span>`,
+    `<span class="c-dim">│</span>  <span class="c-bold c-text">Available Commands</span>                                     <span class="c-dim">│</span>`,
     `<span class="c-dim">└─────────────────────────────────────────────────────────┘</span>`,
     ``,
     `<span class="c-purple c-bold">PORTFOLIO</span>`,
@@ -487,6 +481,7 @@ function registerCommands(term, matrixEffect) {
     `  <span class="c-dim">Location </span> <span class="c-sub">${DATA.location}</span>`,
     `  <span class="c-dim">Status   </span> <span class="c-green">${DATA.status} ✓</span>`,
     `  <span class="c-dim">Email    </span> <span class="c-sky">${DATA.email}</span>`,
+    `  <span class="c-dim">X        </span> <span class="c-sky">${DATA.x}</span>`,
     `  <span class="c-dim">LinkedIn </span> <span class="c-sky">${DATA.linkedin}</span>`,
   ]);
 
@@ -494,7 +489,7 @@ function registerCommands(term, matrixEffect) {
   term.register('about', () => {
     const lines = [
       `<span class="c-dim">╔══════════════════════════════════════════════════════════╗</span>`,
-      `<span class="c-dim">║</span>  <span class="c-bold c-text">${pad('ABOUT — ' + DATA.name, 54)}</span><span class="c-dim">║</span>`,
+      `<span class="c-dim">║</span>  <span class="c-bold c-text">${pad('ABOUT — ' + DATA.name, 56)}</span><span class="c-dim">║</span>`,
       `<span class="c-dim">╚══════════════════════════════════════════════════════════╝</span>`,
       ``,
     ];
@@ -506,7 +501,7 @@ function registerCommands(term, matrixEffect) {
   term.register('experience', () => {
     const lines = [
       `<span class="c-dim">┌─────────────────────────────────────────────────────────┐</span>`,
-      `<span class="c-dim">│</span>  <span class="c-bold c-purple">WORK EXPERIENCE</span>                                          <span class="c-dim">│</span>`,
+      `<span class="c-dim">│</span>  <span class="c-bold c-purple">WORK EXPERIENCE</span>                                        <span class="c-dim">│</span>`,
       `<span class="c-dim">└─────────────────────────────────────────────────────────┘</span>`,
     ];
 
@@ -535,7 +530,7 @@ function registerCommands(term, matrixEffect) {
   term.register('projects', () => {
     const lines = [
       `<span class="c-dim">┌─────────────────────────────────────────────────────────┐</span>`,
-      `<span class="c-dim">│</span>  <span class="c-bold c-purple">PROJECTS</span>  <span class="c-dim">─  type</span> <span class="c-sky">open &lt;n&gt;</span> <span class="c-dim">to visit</span>                          <span class="c-dim">│</span>`,
+      `<span class="c-dim">│</span>  <span class="c-bold c-purple">PROJECTS</span>  <span class="c-dim">─  type</span> <span class="c-sky">open &lt;n&gt;</span> <span class="c-dim">to visit</span>                    <span class="c-dim">│</span>`,
       `<span class="c-dim">└─────────────────────────────────────────────────────────┘</span>`,
     ];
 
@@ -595,22 +590,32 @@ function registerCommands(term, matrixEffect) {
   });
 
   /* ── contact ── */
-  term.register('contact', () => [
-    `<span class="c-dim">╭────────────────────────────────────────────────────────╮</span>`,
-    `<span class="c-dim">│</span>  <span class="c-bold c-text">Let's work together!</span>                                   <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>                                                        <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>  <span class="c-dim">📧  Email</span>                                             <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>     <span class="c-sky">${DATA.email}</span>                     <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>                                                        <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>  <span class="c-dim">💼  LinkedIn</span>                                          <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>     <span class="c-sky">${DATA.linkedin}</span>       <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>                                                        <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>  <span class="c-dim">🐙  GitHub</span>                                            <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>     <span class="c-sky">${DATA.github}</span>          <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>                                                        <span class="c-dim">│</span>`,
-    `<span class="c-dim">│</span>  <span class="c-green">Status: ${DATA.status} ✓</span>                       <span class="c-dim">│</span>`,
-    `<span class="c-dim">╰────────────────────────────────────────────────────────╯</span>`,
-  ]);
+  term.register('contact', () => {
+    const render = (html, visibleLen) => {
+      const padLen = Math.max(0, 56 - visibleLen);
+      return `<span class="c-dim">│</span>${html}${rep(' ', padLen)}<span class="c-dim">│</span>`;
+    };
+
+    return [
+      `<span class="c-dim">╭────────────────────────────────────────────────────────╮</span>`,
+      render(`  <span class="c-bold c-text">Let's work together!</span>`, 22),
+      render(``, 0),
+      render(`  <span class="c-dim">📧  Email</span>`, 11),
+      render(`     <span class="c-sky">${DATA.email}</span>`, 5 + DATA.email.length),
+      render(``, 0),
+      render(`  <span class="c-dim">📱  X</span>`, 7),
+      render(`     <span class="c-sky">${DATA.x}</span>`, 5 + String(DATA.x).length),
+      render(``, 0),
+      render(`  <span class="c-dim">💼  LinkedIn</span>`, 14),
+      render(`     <span class="c-sky">${DATA.linkedin}</span>`, 5 + DATA.linkedin.length),
+      render(``, 0),
+      render(`  <span class="c-dim">🐙  GitHub</span>`, 12),
+      render(`     <span class="c-sky">${DATA.github}</span>`, 5 + DATA.github.length),
+      render(``, 0),
+      render(`  <span class="c-green">Status: ${DATA.status} ✓</span>`, 10 + DATA.status.length),
+      `<span class="c-dim">╰────────────────────────────────────────────────────────╯</span>`,
+    ];
+  });
 
   /* ── social ── */
   term.register('social', () => [
@@ -619,6 +624,7 @@ function registerCommands(term, matrixEffect) {
     `  <span class="c-dim">🔵 LinkedIn </span> <span class="c-sky">https://${DATA.linkedin}</span>`,
     `  <span class="c-dim">🐙 GitHub   </span> <span class="c-sky">https://${DATA.github}</span>`,
     `  <span class="c-dim">📧 Email    </span> <span class="c-sky">mailto:${DATA.email}</span>`,
+    `  <span class="c-dim">📱 X    </span> <span class="c-sky">${DATA.x}</span>`,
   ]);
 
   /* ── neofetch ── */
@@ -671,12 +677,20 @@ function registerCommands(term, matrixEffect) {
 
   /* ── cat ── */
   term.register('cat', (t, args) => {
-    const file = (args[0] || '').toLowerCase().replace(/\..*$/, '');
+    const rawArg = (args[0] || '').toLowerCase();
+    if (rawArg === 'resume.pdf' || rawArg === 'resume') {
+      return [
+        `<span class="c-red">cat: resume.pdf: cannot display binary file</span>`,
+        `<span class="c-dim">Hint: Use</span> <span class="c-sky">open resume.pdf</span> <span class="c-dim">to open it in a viewer.</span>`,
+      ];
+    }
+    
+    const file = rawArg.replace(/\..*$/, '');
     const map = { about: 'about', experience: 'experience', skills: 'skills', contact: 'contact', projects: 'projects' };
     if (map[file]) return t.commands[map[file]](t, []);
     return [
       `<span class="c-red">cat: ${esc(args[0] || '')}: No such file</span>`,
-      `<span class="c-dim">Available: about.txt  experience.log  skills.json  contact.txt</span>`,
+      `<span class="c-dim">Available: about.txt  experience.log  skills.json  contact.txt  resume.pdf</span>`,
     ];
   });
 
@@ -710,11 +724,20 @@ function registerCommands(term, matrixEffect) {
 
   /* ── open ── */
   term.register('open', (t, args) => {
-    const n = parseInt(args[0], 10);
+    const arg = (args[0] || '').toLowerCase();
+    
+    if (arg === 'resume.pdf' || arg === 'resume') {
+      window.open('resume.pdf', '_blank', 'noopener,noreferrer');
+      return [
+        `<span class="c-green">Opening</span> <span class="c-text">resume.pdf</span> <span class="c-dim">in a new tab...</span>`,
+      ];
+    }
+
+    const n = parseInt(arg, 10);
     if (isNaN(n) || n < 1 || n > DATA.projects.length) {
       return [
-        `<span class="c-red">open: invalid project number</span>`,
-        `<span class="c-dim">Usage: open &lt;n&gt;  where n is 1–${DATA.projects.length}</span>`,
+        `<span class="c-red">open: invalid target or project number</span>`,
+        `<span class="c-dim">Usage: open &lt;n&gt; (1–${DATA.projects.length}) OR open resume.pdf</span>`,
         `<span class="c-dim">Run 'projects' to see the list.</span>`,
       ];
     }
