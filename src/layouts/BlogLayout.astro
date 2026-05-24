@@ -1,0 +1,259 @@
+---
+const { title, description = "Engineering and Software Development Blog of Bhagaban Ghadai" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} — Bhagaban Ghadai Blog</title>
+  <meta name="description" content={description} />
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style is:global>
+    :root {
+      --bg: #0d0d16;
+      --panel: rgba(30, 30, 46, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(203, 166, 247, 0.3);
+      --text: #cdd6f4;
+      --subtext: #a6adc8;
+      --dim: #585b70;
+      --green: #a6e3a1;
+      --sky: #89dceb;
+      --blue: #89b4fa;
+      --purple: #cba6f7;
+      --pink: #f5c2e7;
+      --peach: #fab387;
+      --yellow: #f9e2af;
+      --red: #f38ba8;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(203, 166, 247, 0.08) 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 80%, rgba(137, 180, 250, 0.08) 0%, transparent 45%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Selection */
+    ::selection {
+      background: rgba(203, 166, 247, 0.3);
+      color: #ffffff;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #313244;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--dim);
+    }
+
+    /* Glassmorphism utility */
+    .glass {
+      background: var(--panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header Nav */
+    .blog-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 13, 22, 0.8);
+      transition: background 0.3s;
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: opacity 0.2s;
+    }
+    .brand:hover {
+      opacity: 0.85;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: var(--panel);
+      border: 1px solid var(--border-glow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple);
+      font-size: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      -webkit-text-fill-color: initial;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .nav-link {
+      color: var(--subtext);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--text);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      border-radius: 2px;
+    }
+
+    /* Footer styling */
+    .blog-footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      margin-top: 80px;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.9rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    .footer-link {
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-link:hover {
+      color: var(--subtext);
+    }
+
+    /* Subdomain Switch Button */
+    .nav-switch-btn {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(203, 166, 247, 0.1);
+      border: 1px solid rgba(203, 166, 247, 0.25);
+      color: var(--purple);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .nav-switch-btn:hover {
+      background: rgba(203, 166, 247, 0.2);
+      border-color: rgba(203, 166, 247, 0.45);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(203, 166, 247, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="blog-header">
+    <div class="container nav-wrap">
+      <a href="https://bhagaban.in" class="brand">
+        <span class="brand-logo">&lt;/&gt;</span>
+        <span>Bhagaban Ghadai</span>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 24px;">
+        <ul class="nav-links" style="display: flex; align-items: center; gap: 24px;">
+          <li><a href="https://bhagaban.in" class="nav-link">Terminal</a></li>
+          <li><a href="https://blog.bhagaban.in" class="nav-link active">Blog</a></li>
+        </ul>
+        <a href="https://bhagaban.in" class="nav-switch-btn glass">
+          <span>⚡ bhagaban.in</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content Slot -->
+  <main style="animation: fadeIn 0.4s ease forwards;">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="blog-footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="https://github.com/BhagabanGhadai" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/bhagaban-ghadai" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a></li>
+        <li><a href="mailto:bhagabanghadai043@gmail.com" class="footer-link">Email</a></li>
+      </ul>
+      <p>© {new Date().getFullYear()} Bhagaban Ghadai. Built with Astro.</p>
+    </div>
+  </footer>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</body>
+</html>

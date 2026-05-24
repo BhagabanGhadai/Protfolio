@@ -709,3 +709,32 @@ html, body {
   :root { --fs: 11.5px; }
   .term-body { padding: 12px 14px; }
 }
+
+/* Subdomain Switch Button in Menubar */
+.domain-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(203, 166, 247, 0.15);
+  border: 1px solid rgba(203, 166, 247, 0.3);
+  color: var(--purple);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: var(--font);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  letter-spacing: 0.01em;
+  margin-right: 4px;
+}
+.domain-switch-btn:hover {
+  background: rgba(203, 166, 247, 0.25);
+  border-color: rgba(203, 166, 247, 0.5);
+  color: #ffffff;
+  transform: translateY(-0.5px);
+}
+.domain-switch-btn svg {
+  flex-shrink: 0;
+}
+

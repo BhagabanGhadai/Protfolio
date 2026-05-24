@@ -435,6 +435,19 @@ class MatrixEffect {
 ═══════════════════════════════════════════════ */
 function registerCommands(term, matrixEffect) {
 
+  let cachedBlogs = null;
+  async function getBlogPosts() {
+    if (cachedBlogs) return cachedBlogs;
+    try {
+      const res = await fetch('/api/blog.json');
+      cachedBlogs = await res.json();
+      return cachedBlogs;
+    } catch (e) {
+      console.error('Failed to fetch blogs:', e);
+      return [];
+    }
+  }
+
   /* ── help ── */
   term.register('help', () => [
     `<span class="c-dim">┌─────────────────────────────────────────────────────────┐</span>`,
@@ -445,6 +458,7 @@ function registerCommands(term, matrixEffect) {
     `<span class="c-dim">──────────────────────────────────────────────────────────</span>`,
     `  <span class="c-sky">whoami</span>       <span class="c-dim">·</span>  Quick intro`,
     `  <span class="c-sky">about</span>        <span class="c-dim">·</span>  About me in detail`,
+    `  <span class="c-sky">blog</span>         <span class="c-dim">·</span>  Engineering blog articles`,
     `  <span class="c-sky">experience</span>   <span class="c-dim">·</span>  Work history & timeline`,
     `  <span class="c-sky">projects</span>     <span class="c-dim">·</span>  Things I've built`,
     `  <span class="c-sky">skills</span>       <span class="c-dim">·</span>  Technologies I use`,
@@ -566,6 +580,71 @@ function registerCommands(term, matrixEffect) {
     return lines;
   });
 
+  /* ── blog ── */
+  term.register('blog', async (t, args) => {
+    const sub = (args[0] || '').toLowerCase();
+    
+    if (sub === 'web') {
+      window.open('https://blog.bhagaban.in', '_blank');
+      return [`<span class="c-green">Opening dedicated blog website in a new tab...</span>`];
+    }
+    
+    const blogPosts = await getBlogPosts();
+    if (!blogPosts.length) {
+      return [`<span class="c-red">blog: no posts found. Check your API backend.</span>`];
+    }
+    
+    if (sub === 'view' || !isNaN(parseInt(sub, 10)) || (sub && !['list', 'help'].includes(sub))) {
+      let target = sub;
+      if (sub === 'view') {
+        target = (args[1] || '').toLowerCase();
+      }
+      
+      let postIdx = parseInt(target, 10) - 1;
+      let post = null;
+      
+      if (!isNaN(postIdx) && postIdx >= 0 && postIdx < blogPosts.length) {
+        post = blogPosts[postIdx];
+      } else {
+        post = blogPosts.find(p => p.id === target || p.id.replace(/-/g, '') === target.replace(/-/g, ''));
+      }
+      
+      if (!post) {
+        return [
+          `<span class="c-red">blog: article not found: "${esc(target)}"</span>`,
+          `<span class="c-dim">Usage: blog view &lt;number&gt; (1–${blogPosts.length}) or cat blog/&lt;filename&gt;</span>`,
+          `<span class="c-dim">Type 'blog' to see the list of articles.</span>`
+        ];
+      }
+      
+      return post.content;
+    }
+    
+    const lines = [
+      `<span class="c-dim">┌─────────────────────────────────────────────────────────┐</span>`,
+      `<span class="c-dim">│</span>  <span class="c-bold c-purple">ENGINEERING BLOG</span>  <span class="c-dim">─  type</span> <span class="c-sky">blog &lt;n&gt;</span> <span class="c-dim">or</span> <span class="c-sky">blog web</span>            <span class="c-dim">│</span>`,
+      `<span class="c-dim">└─────────────────────────────────────────────────────────┘</span>`,
+    ];
+    
+    blogPosts.forEach((post, i) => {
+      lines.push(``);
+      lines.push(`  <div class="blog-post-card" style="cursor: pointer;" onclick="document.getElementById('cmdInput').value = 'blog ${i+1}'; document.getElementById('cmdInput').focus();">`);
+      lines.push(`    <div class="blog-title">[${i + 1}] ${esc(post.title)}</div>`);
+      lines.push(`    <div class="blog-meta-row">`);
+      lines.push(`      <span>📅 ${esc(post.date)}</span>`);
+      lines.push(`      <span>⏱ ${esc(post.readTime)}</span>`);
+      const tags = post.tags.map(t => `<span class="blog-tag">${esc(t)}</span>`).join(' ');
+      lines.push(`      ${tags}`);
+      lines.push(`    </div>`);
+      lines.push(`    <div class="blog-summary">${esc(post.summary)}</div>`);
+      lines.push(`  </div>`);
+    });
+    
+    lines.push(``);
+    lines.push(`<span class="c-dim">Hint: Click a card above to prefill input, or type 'blog web' to view the site.</span>`);
+    return lines;
+  });
+
   /* ── skills ── */
   term.register('skills', () => {
     const lines = [
@@ -658,10 +737,22 @@ function registerCommands(term, matrixEffect) {
   });
 
   /* ── ls ── */
-  term.register('ls', () => {
+  term.register('ls', async (t, args) => {
+    const sub = (args[0] || '').toLowerCase().replace(/\/$/, '');
+    
+    if (sub === 'blog') {
+      const blogPosts = await getBlogPosts();
+      const blogItems = blogPosts.map(p => ({ name: `${p.id}.md`, color: 'c-green' }));
+      return [
+        `<span class="c-dim">total ${blogItems.length}</span>`,
+        blogItems.map(f => `<span class="${f.color}">${f.name}</span>`).join('    '),
+      ];
+    }
+    
     const items = [
       { name: 'about.txt',      color: 'c-green' },
       { name: 'experience.log', color: 'c-green' },
+      { name: 'blog/',          color: 'c-blue' },
       { name: 'projects/',      color: 'c-blue' },
       { name: 'skills.json',    color: 'c-green' },
       { name: 'contact.txt',    color: 'c-green' },
@@ -671,12 +762,12 @@ function registerCommands(term, matrixEffect) {
       `<span class="c-dim">total ${items.length}</span>`,
       items.map(f => `<span class="${f.color}">${f.name}</span>`).join('    '),
       ``,
-      `<span class="c-dim">Run a command like 'about', 'projects', 'skills' to read a file.</span>`,
+      `<span class="c-dim">Run a command like 'about', 'blog', 'projects' to read a file or folder.</span>`,
     ];
   });
 
   /* ── cat ── */
-  term.register('cat', (t, args) => {
+  term.register('cat', async (t, args) => {
     const rawArg = (args[0] || '').toLowerCase();
     if (rawArg === 'resume.pdf' || rawArg === 'resume') {
       return [
@@ -685,12 +776,38 @@ function registerCommands(term, matrixEffect) {
       ];
     }
     
+    if (rawArg === 'blog' || rawArg === 'blog/') {
+      return [
+        `<span class="c-red">cat: blog: Is a directory</span>`,
+        `<span class="c-dim">Hint: Use</span> <span class="c-sky">ls blog/</span> <span class="c-dim">to list files, or</span> <span class="c-sky">cat blog/&lt;file&gt;</span> <span class="c-dim">to view content.</span>`,
+      ];
+    }
+    
+    if (rawArg.startsWith('blog/')) {
+      const postFile = rawArg.replace(/^blog\//, '').replace(/\.md$/, '');
+      const blogPosts = await getBlogPosts();
+      let postIdx = parseInt(postFile, 10) - 1;
+      let post = null;
+      
+      if (!isNaN(postIdx) && postIdx >= 0 && postIdx < blogPosts.length) {
+        post = blogPosts[postIdx];
+      } else {
+        post = blogPosts.find(p => p.id === postFile || p.id.replace(/-/g, '') === postFile.replace(/-/g, ''));
+      }
+      
+      if (post) return post.content;
+      return [
+        `<span class="c-red">cat: ${esc(args[0])}: No such file or directory</span>`,
+        `<span class="c-dim">Hint: Type</span> <span class="c-sky">ls blog/</span> <span class="c-dim">to see all available blog files.</span>`,
+      ];
+    }
+    
     const file = rawArg.replace(/\..*$/, '');
-    const map = { about: 'about', experience: 'experience', skills: 'skills', contact: 'contact', projects: 'projects' };
+    const map = { about: 'about', experience: 'experience', skills: 'skills', contact: 'contact', projects: 'projects', blog: 'blog' };
     if (map[file]) return t.commands[map[file]](t, []);
     return [
       `<span class="c-red">cat: ${esc(args[0] || '')}: No such file</span>`,
-      `<span class="c-dim">Available: about.txt  experience.log  skills.json  contact.txt  resume.pdf</span>`,
+      `<span class="c-dim">Available: about.txt  experience.log  blog/  projects/  skills.json  contact.txt  resume.pdf</span>`,
     ];
   });
 
@@ -855,6 +972,7 @@ function registerCommands(term, matrixEffect) {
       help:       'help — list all available commands',
       whoami:     'whoami — display a quick intro',
       about:      'about — display detailed biography',
+      blog:       'blog [list|view <n>|web] — read engineering blog articles (alternative: cat blog/<id>)',
       experience: 'experience — show work history and timeline',
       projects:   'projects — list all projects (use open <n> to visit)',
       skills:     'skills — display skills table by category',

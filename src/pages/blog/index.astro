@@ -1,0 +1,280 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+// Fetch all blog posts, sorted by date (latest first)
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Extract all unique tags
+const allTags = [...new Set(posts.flatMap(post => post.data.tags))];
+---
+
+<BlogLayout title="Engineering Blog">
+  <div class="container py-8">
+    
+    <!-- Hero Banner -->
+    <header class="blog-hero py-12 text-center">
+      <h1 class="hero-title">Engineering Articles</h1>
+      <p class="hero-subtitle">Thoughts, guides, and practical experiences on backend systems, containerization, and database performance.</p>
+      <div class="stats-row">
+        <span class="stat-badge">📝 {posts.length} Articles</span>
+        <span class="stat-badge">⚡ Powered by Astro</span>
+      </div>
+    </header>
+
+    <!-- Tag Filter Bar -->
+    <div class="filter-bar py-4">
+      <span class="filter-label">Filter by:</span>
+      <div class="tag-filters">
+        <button class="tag-filter-btn active" data-tag="all">All</button>
+        {allTags.map(tag => (
+          <button class="tag-filter-btn" data-tag={tag.toLowerCase()}>{tag}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="posts-grid" id="postsGrid">
+      {sortedPosts.map(post => (
+        <article class="post-card glass" data-tags={post.data.tags.map(t => t.toLowerCase()).join(',')}>
+          <a href={`/blog/${post.id}`} class="card-link">
+            {post.data.coverImage && (
+              <div class="card-image-wrap">
+                <img src={post.data.coverImage} alt={post.data.title} class="card-image" loading="lazy" />
+              </div>
+            )}
+            <div class="card-content">
+              <div class="card-tags">
+                {post.data.tags.map(tag => (
+                  <span class="card-tag">{tag}</span>
+                ))}
+              </div>
+              <h2 class="card-title">{post.data.title}</h2>
+              <p class="card-summary">{post.data.summary}</p>
+              <div class="card-meta">
+                <span>📅 {post.data.date}</span>
+                <span>⏱ {post.data.readTime}</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</BlogLayout>
+
+<style>
+  .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+  .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+
+  /* Hero Banner */
+  .blog-hero {
+    max-width: 750px;
+    margin: 0 auto 3rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 30%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--subtext);
+    margin-bottom: 1.5rem;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .stat-badge {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--subtext);
+  }
+
+  /* Tag Filter Bar */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tag-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag-filter-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    color: var(--subtext);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .tag-filter-btn:hover {
+    border-color: var(--dim);
+    color: var(--text);
+  }
+  .tag-filter-btn.active {
+    background: rgba(203, 166, 247, 0.15);
+    border-color: rgba(203, 166, 247, 0.4);
+    color: var(--purple);
+    font-weight: 600;
+    box-shadow: 0 0 16px rgba(203, 166, 247, 0.05);
+  }
+
+  /* Posts Grid */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  /* Post Card */
+  .post-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-glow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 30px rgba(203, 166, 247, 0.05);
+  }
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .card-image-wrap {
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.15);
+  }
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .post-card:hover .card-image {
+    transform: scale(1.05);
+  }
+  .card-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .card-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sky);
+    background: rgba(137, 180, 250, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+  .post-card:hover .card-title {
+    color: var(--purple);
+  }
+  .card-summary {
+    font-size: 0.95rem;
+    color: var(--subtext);
+    margin-bottom: 16px;
+    line-height: 1.5;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--dim);
+    font-weight: 500;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title { font-size: 2.25rem; }
+    .hero-subtitle { font-size: 1.05rem; }
+    .filter-bar { gap: 10px; }
+  }
+</style>
+
+<script>
+  // Add interactive filters in client-side
+  const filterBtns = document.querySelectorAll('.tag-filter-btn');
+  const cards = document.querySelectorAll('.post-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle active state
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selectedTag = btn.getAttribute('data-tag');
+
+      // Filter cards
+      cards.forEach(card => {
+        const cardTags = card.getAttribute('data-tags').split(',');
+        if (selectedTag === 'all' || cardTags.includes(selectedTag)) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.3s ease forwards';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
